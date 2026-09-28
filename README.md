@@ -1,14 +1,3 @@
----
-title: Coverage X-Ray
-emoji: 🛡️
-colorFrom: green
-colorTo: gray
-sdk: docker
-app_port: 7860
-pinned: false
-license: mit
-short_description: Paste a SIEM rule, get its ATT&CK technique and what you're blind to
----
 
 # Coverage X-Ray
 
@@ -18,30 +7,6 @@ Paste a SIEM detection rule → get its MITRE ATT&CK technique, what the rule
 Not a MITRE lookup tool. The T-number is step one; the product is the gap.
 
 ---
-
-## Run it
-
-Two terminals.
-
-**Backend**
-
-```bash
-cd HACK/backend
-pip install -r requirements.txt
-python -m uvicorn app.main:app --reload --port 8000
-```
-
-**Frontend**
-
-```bash
-cd HACK/UI
-npm install
-npm run dev
-```
-
-Open <http://localhost:5173>.
-
-> Vite binds IPv6 on this machine — use `localhost`, not `127.0.0.1`.
 
 ### The model
 
