@@ -1,0 +1,327 @@
+{
+ "provider": "gemini:api-key",
+ "model": "gemini-3.8-flash",
+ "sample_size": 20,
+ "seed": 7,
+ "exact": 9,
+ "technique": 11,
+ "tactic": 12,
+ "abstained": 3,
+ "hallucinated": 0,
+ "recall_sample": 200,
+ "recall_curve": [
+  {
+   "k": 10,
+   "exact": 50.0,
+   "parent": 62.0
+  },
+  {
+   "k": 20,
+   "exact": 55.5,
+   "parent": 70.0
+  },
+  {
+   "k": 30,
+   "exact": 61.5,
+   "parent": 77.0,
+   "current": true
+  },
+  {
+   "k": 50,
+   "exact": 66.0,
+   "parent": 83.0
+  }
+ ],
+ "rows": [
+  {
+   "title": "Suspicious Get Local Groups Information",
+   "truth": [
+    "T1069.001"
+   ],
+   "predicted": "T1069.001",
+   "predicted_parent": "T1069",
+   "predicted_tactic": "Discovery",
+   "confidence": 0.95,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "Malware User Agent",
+   "truth": [
+    "T1071.001"
+   ],
+   "predicted": "T1036.012",
+   "predicted_parent": "T1036",
+   "predicted_tactic": "Stealth",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "Windows Credential Guard Registry Tampering Via CommandLine",
+   "truth": [
+    "T1685"
+   ],
+   "predicted": "",
+   "predicted_parent": "",
+   "predicted_tactic": "",
+   "confidence": 0.0,
+   "abstained": true,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "Disable Internal Tools or Feature in Registry",
+   "truth": [
+    "T1112"
+   ],
+   "predicted": "",
+   "predicted_parent": "",
+   "predicted_tactic": "",
+   "confidence": 0.0,
+   "abstained": true,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "User State Changed From Guest To Member",
+   "truth": [
+    "T1078.004"
+   ],
+   "predicted": "T1098",
+   "predicted_parent": "T1098",
+   "predicted_tactic": "Persistence",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": true
+  },
+  {
+   "title": "Clipboard Collection with Xclip Tool - Auditd",
+   "truth": [
+    "T1115"
+   ],
+   "predicted": "T1115",
+   "predicted_parent": "T1115",
+   "predicted_tactic": "Collection",
+   "confidence": 1.0,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "Remote Access Tool - ScreenConnect Server Web Shell Execution",
+   "truth": [
+    "T1190"
+   ],
+   "predicted": "T1505.003",
+   "predicted_parent": "T1505",
+   "predicted_tactic": "Persistence",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "Capsh Shell Invocation - Linux",
+   "truth": [
+    "T1059"
+   ],
+   "predicted": "T1059.004",
+   "predicted_parent": "T1059",
+   "predicted_tactic": "Execution",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "Uncommon Process Access Rights For Target Image",
+   "truth": [
+    "T1055.011"
+   ],
+   "predicted": "T1055.002",
+   "predicted_parent": "T1055",
+   "predicted_tactic": "Stealth",
+   "confidence": 0.7,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "Recon Information for Export with Command Prompt",
+   "truth": [
+    "T1119"
+   ],
+   "predicted": "T1059.003",
+   "predicted_parent": "T1059",
+   "predicted_tactic": "Execution",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "Azure AD Only Single Factor Authentication Required",
+   "truth": [
+    "T1078.004",
+    "T1556.006"
+   ],
+   "predicted": "T1078.004",
+   "predicted_parent": "T1078",
+   "predicted_tactic": "Stealth",
+   "confidence": 0.7,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "PUA - Fast Reverse Proxy (FRP) Execution",
+   "truth": [
+    "T1090"
+   ],
+   "predicted": "T1090",
+   "predicted_parent": "T1090",
+   "predicted_tactic": "Command and Control",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "PowerShell Scripts Installed as Services",
+   "truth": [
+    "T1569.002"
+   ],
+   "predicted": "T1543.003",
+   "predicted_parent": "T1543",
+   "predicted_tactic": "Persistence",
+   "confidence": 0.95,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "Granting Of Permissions To An Account",
+   "truth": [
+    "T1098.003"
+   ],
+   "predicted": "T1098.003",
+   "predicted_parent": "T1098",
+   "predicted_tactic": "Persistence",
+   "confidence": 0.95,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "Linux Command History Tampering",
+   "truth": [
+    "T1070.003"
+   ],
+   "predicted": "T1070.003",
+   "predicted_parent": "T1070",
+   "predicted_tactic": "Stealth",
+   "confidence": 0.95,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "HackTool - SILENTTRINITY Stager Execution",
+   "truth": [
+    "T1071"
+   ],
+   "predicted": "",
+   "predicted_parent": "",
+   "predicted_tactic": "",
+   "confidence": 0.0,
+   "abstained": true,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "HackTool - CrackMapExec Execution",
+   "truth": [
+    "T1047",
+    "T1053",
+    "T1059.003",
+    "T1059.001",
+    "T1110",
+    "T1201"
+   ],
+   "predicted": "T1021.002",
+   "predicted_parent": "T1021",
+   "predicted_tactic": "Lateral Movement",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": false,
+   "technique_ok": false,
+   "tactic_ok": false
+  },
+  {
+   "title": "Okta New Admin Console Behaviours",
+   "truth": [
+    "T1078.004"
+   ],
+   "predicted": "T1078.004",
+   "predicted_parent": "T1078",
+   "predicted_tactic": "Stealth",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "File Deleted Via Sysinternals SDelete",
+   "truth": [
+    "T1070.004"
+   ],
+   "predicted": "T1070.004",
+   "predicted_parent": "T1070",
+   "predicted_tactic": "Stealth",
+   "confidence": 0.95,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  },
+  {
+   "title": "Communication To Ngrok Tunneling Service - Linux",
+   "truth": [
+    "T1567",
+    "T1568.002",
+    "T1572",
+    "T1090",
+    "T1102"
+   ],
+   "predicted": "T1572",
+   "predicted_parent": "T1572",
+   "predicted_tactic": "Command and Control",
+   "confidence": 0.85,
+   "abstained": false,
+   "exact": true,
+   "technique_ok": true,
+   "tactic_ok": true
+  }
+ ]
+}

@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "IBM Plex Sans Condensed", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-body: "IBM Plex Sans", sans-serif;
+
+  /* radiograph base */
+  --color-void: #07090D;
+  --color-shell: #0C1016;
+  --color-panel: #11161F;
+  --color-raised: #161D28;
+  --color-line: #1E2736;
+  --color-line-bright: #2C3849;
+
+  /* signal */
+  --color-phosphor: #4DF0C4;
+  --color-phosphor-dim: #1F6B57;
+  --color-alarm: #FF4D5E;
+  --color-alarm-dim: #6B1F28;
+  --color-amber: #FFB340;
+  --color-amber-dim: #6B4A1A;
+  --color-ice: #7FC4FF;
+
+  /* chart marks — status palette, validated for the #0C1016 dark surface
+     (lightness band, chroma floor, CVD separation, contrast: all pass).
+     Distinct from the UI accents above, which are text/chrome tokens. */
+  --color-mark-good: #18A886;
+  --color-mark-warn: #B08F14;
+  --color-mark-crit: #E03A6E;
+  --color-mark-info: #3D85C6;
+
+  /* text */
+  --color-ink: #DCE3ED;
+  --color-ink-dim: #8A97A8;
+  --color-ink-faint: #56626F;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The radiograph: faint grid + vignette + film grain. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(77, 240, 196, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 240, 196, 0.028) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, #000 20%, transparent 78%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#root { position: relative; z-index: 2; }
+
+::selection { background: var(--color-phosphor); color: #04110C; }
+
+/* scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-void); }
+::-webkit-scrollbar-thumb { background: #1E2736; border: 2px solid var(--color-void); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #2B384A; }
+
+textarea, input, button { font-family: inherit; }
+textarea:focus, input:focus { outline: none; }
+
+/* ---------- utilities ---------- */
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(22, 29, 40, 0.75), rgba(12, 16, 22, 0.75));
+  border: 1px solid var(--color-line);
+  position: relative;
+}
+
+/* corner ticks — instrument-panel detail */
+.ticked::before,
+.ticked::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-color: rgba(77, 240, 196, 0.45);
+  border-style: solid;
+}
+.ticked::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.ticked::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+/* scanning sweep while a request is in flight */
+@keyframes sweep {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(1200%); opacity: 0; }
+}
+.scanning::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-phosphor), transparent);
+  box-shadow: 0 0 18px 2px rgba(77, 240, 196, 0.5);
+  animation: sweep 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+.live-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  94% { opacity: 0.55; }
+  96% { opacity: 1; }
+}
+.flicker { animation: flicker 6s linear infinite; }
+
+.hatched {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent, transparent 4px,
+    rgba(255, 77, 94, 0.09) 4px, rgba(255, 77, 94, 0.09) 8px
+  );
+}

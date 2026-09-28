@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+backend/data/enterprise-attack.json
+backend/data/sigma
+backend/eval/eval_cache.json
+backend/.env
+.git

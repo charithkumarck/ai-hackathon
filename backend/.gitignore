@@ -1,0 +1,6 @@
+data/enterprise-attack.json
+__pycache__/
+*.pyc
+.env
+eval/eval_cache.json
+data/sigma/

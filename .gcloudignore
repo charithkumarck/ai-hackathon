@@ -1,0 +1,11 @@
+# gcloud uses THIS file (not .dockerignore) to decide what to upload for a
+# --source deploy. Without it, node_modules and the 52MB ATT&CK bundle ship.
+.git
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+backend/data/enterprise-attack.json
+backend/data/sigma
+backend/eval/eval_cache.json
+backend/.env
