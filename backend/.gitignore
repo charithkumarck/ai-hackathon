@@ -4,3 +4,4 @@ __pycache__/
 .env
 eval/eval_cache.json
 data/sigma/
+.env
