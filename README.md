@@ -6,7 +6,7 @@ Problem Statement:
 Any security engineer cannot know all 100+ TTPs (tactic, technique, and procedure) of MITRE ATT&CK (framework for understanding and mapping cyberattacker behavior)
 MITRE ATT&CK = Adversarial Tactics, Techniques, and Common Knowledge. --> It documents how attackers typically operate during a cyberattack, based on real-world observations.
 
-Intend is to help security engineers or a security analyst can use the built site to know about the TTPs.
+Intend is to help security engineers or security analysts can use this built site to know about the TTPs.
 SIEM engineer builds detection logic, like brute force or impossible travel use cases, and he does not
 know the TTPs. TTP are required for documnetation and to understand the current security posture of the organization and to konw in which domian the security they need to focus
 and start writing secuirty usecases on it. To konw the MITRE mapping either the engineer Googles or use any AI tool to know the TTPs and add this to his
@@ -35,9 +35,8 @@ paste
 ### The two guarantees
 
 **1. No invented technique IDs.** Retrieval builds the candidate pool; the model
-may only *choose* from it. Anything else is dropped, counted, and surfaced on
-`/api/health` as `hallucinated_ids_blocked`. This is why you can trust the
-coverage grid — one wrong ID silently corrupts it.
+may only *choose* from it. Anything else is dropped, counted, as `hallucinated_ids_blocked`. This is why you can trust the
+coverage grid
 
 **2. A pasted rule is untrusted input.** Comments are stripped before the text
 reaches a prompt, and the model receives the parsed IR rather than raw text.
