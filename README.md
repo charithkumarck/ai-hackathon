@@ -107,7 +107,11 @@ Built:
 
 ---
 ## Tech Stack
-Backend: python/fastapi Frontend: react/typescript LLM_AI: gemini 3.8 flash
+Backend: python/fastapi 
+
+Frontend: react/typescript 
+
+LLM_AI: gemini 3.8 flash
 
 ### Results — 20 held-out rules, gemini-3.8-flash, seed 7
 
