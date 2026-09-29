@@ -28,8 +28,8 @@ paste
   ↓  parse      detect SPL/KQL/YARA-L, extract what the query observes
   ↓             …and strip comments — this is the injection boundary
   ↓  enrich     indicator lexicon: 445→SMB, 1102→log clearing, 4769+0x17→kerberoasting
-  ↓  retrieve   BM25 over 697 ATT&CK techniques → 10 candidates
-  ↓  reason     Claude picks from those candidates ONLY, and justifies it
+  ↓  retrieve   mitre over 697 ATT&CK techniques → 10 candidates
+  ↓  reason     ai model picks from those candidates ONLY, and justifies it
   ↓  critique   blind spots + telemetry that would close them
   ↓  walk       downstream tactics → the rules you don't have
 ```
