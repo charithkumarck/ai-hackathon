@@ -44,8 +44,11 @@ Try the "injection test" example.
 
 ## SOP
 **Functionality1:** Paste you individual detection queries in SINGLE RULE of Coverage X-Ray and get your TTPs
+
 **Functionality2:** Shows the blind spot of the that single rule query and what can be made stronger
+
 **Functionality3:** You can generate the detection rules for other TTPs related to that rule and post sanity check in you environment can implement and increase the coverage
+
 **Functionality4:** Can make use of the FULL SWEEP feature in Coverage X-Ray to dump your detection rules and know the security posture of your organization
 Gives you the percentage of security coverage based on scoring defined below along with the coverage by security domains.
 It also gives attack matrix right from recon to impact like how many detection rules are there.
