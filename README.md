@@ -1,52 +1,23 @@
 
 # Coverage X-Ray
 
+Problem Statement: 
+
+Any security engineer cannot know all 100+ TTPs (tactic, technique, and procedure) of MITRE ATT&CK (framework for understanding and mapping cyberattacker behavior)
+MITRE ATT&CK = Adversarial Tactics, Techniques, and Common Knowledge. --> It documents how attackers typically operate during a cyberattack, based on real-world observations.
+
+Intend is to help security engineers or a security analyst can use the built site to know about the TTPs.
+SIEM engineer builds detection logic, like brute force or impossible travel use cases, and he does not
+know the TTPs. TTP are required for documnetation and to understand the current security posture of the organization and to konw in which domian the security they need to focus
+and start writing secuirty usecases on it. To konw the MITRE mapping either the engineer Googles or use any AI tool to know the TTPs and add this to his
+documentation or the analytical rule list.  
+
+Coverage X-Ray is built to bridge this gap and save time and focus on deveopment work
+
 Paste a SIEM detection rule → get its MITRE ATT&CK technique, what the rule
 **cannot** see, and the detections you are missing further down the attack chain.
 
-Not a MITRE lookup tool. The T-number is step one; the product is the gap.
-
----
-
-### The model
-
-Config lives in `backend/.env`:
-
-```
-GEMINI_API_KEY=...
-GEMINI_MODEL=gemini-3.8-flash
-GEMINI_FALLBACK_MODELS=gemini-3.5-flash,gemini-3.1-flash-lite-preview
-GEMINI_THINKING_BUDGET=512
-LLM_PROVIDER=auto          # auto | gemini | claude | offline
-```
-
-Providers are tried in order: **Gemini** (API key, then Vertex AI via ADC) →
-**Claude** (`ANTHROPIC_API_KEY`) → **offline**.
-
-Three things learned the hard way, all encoded in `llm.py`:
-
-- **Pin the model.** `gemini-flash-latest` routes to whatever is newest, which
-  is also whatever is busiest — it 503s while the pinned `gemini-3.8-flash`
-  behind it answers fine.
-- **Pro is quota-zero on free tier.** `gemini-pro-latest` returns
-  `RESOURCE_EXHAUSTED ... limit: 0`. Flash is the tier that works.
-- **`load_dotenv(override=True)`.** This machine has a `GEMINI_API_KEY` set
-  globally in the user profile for an unrelated project. Without `override`
-  it silently wins over `backend/.env` and you authenticate as the wrong thing.
-
-On overload the call walks the fallback chain, then retries with backoff
-(honouring Google's `retryDelay`), then degrades to the offline heuristic
-rather than erroring. `engine` in every response says which path ran.
-
-### Offline mode
-
-With no working credentials the app still runs on a lexical heuristic, so a
-demo cannot die on stage. It maps and critiques but **cannot generate rules**,
-and its mappings are unreasoned — it calls the brute-force example
-*Password Spraying*, where the model correctly says *Password Guessing*
-(grouping by user + a high threshold is guessing; spraying is many accounts,
-few attempts each). That contrast is the cleanest proof the model is doing
-real work.
+Not a MITRE lookup tool.
 
 ---
 
@@ -73,19 +44,6 @@ coverage grid — one wrong ID silently corrupts it.
 **2. A pasted rule is untrusted input.** Comments are stripped before the text
 reaches a prompt, and the model receives the parsed IR rather than raw text.
 Try the "injection test" example.
-
----
-
-## API
-
-| Endpoint | Does |
-|---|---|
-| `GET /api/health` | KB stats, LLM status, guardrail counter |
-| `POST /api/analyze` | one rule → mapping + critique + gaps + trace |
-| `POST /api/analyze/bulk` | many rules → coverage + posture + replays (`{"use_seed": true}` for the 30-rule demo set) |
-| `POST /api/generate-rule` | a gap → a query to paste into the SIEM |
-| `GET /api/replay/{id}?session=` | one intrusion replayed against your coverage |
-| `GET /api/technique/{id}` | raw ATT&CK detail |
 
 ---
 
@@ -129,7 +87,7 @@ coverage, it is one detection written five times.
 Built:
 
 - [x] ATT&CK ingest + BM25 retrieval, no vector DB to stand up
-- [x] Parser for SPL / KQL / YARA-L / Sigma / plain English
+- [x] Parser for SPL / KQL / YARA-L  / plain English
 - [x] Retrieval-constrained mapping with confidence + abstention
 - [x] Blind spots + telemetry upgrades
 - [x] Gap walk down the kill chain
@@ -139,30 +97,7 @@ Built:
 - [x] Prompt-injection stripping, demoed in the UI
 - [x] Offline mode so the demo cannot die on stage
 
-- [x] **SigmaHQ accuracy eval** (`python -m eval.run_eval`)
-
-Not built yet:
-
-- [ ] Sigma → SPL/KQL conversion to generate multi-dialect test data for free
-- [ ] Export the coverage layer as an ATT&CK Navigator JSON
-
-
 ---
-
-## Measured accuracy
-
-SigmaHQ publishes ~2,800 real detection rules that already carry their correct
-ATT&CK technique as a tag. That is free, human-authored ground truth. The eval
-strips the tags, feeds the rule through the pipeline, and compares.
-
-The rule is shown only `title`, `logsource` and `detection` — what a SIEM rule
-actually contains. `description`, `references` and `falsepositives` are dropped
-because they often name the technique in prose, which would make this a reading
-test rather than a query-analysis test.
-
-```
-python -m eval.run_eval --rules-dir <sigma>/rules --n 20
-```
 
 ### Results — 20 held-out rules, gemini-3.8-flash, seed 7
 
@@ -179,33 +114,4 @@ Zero is not luck. The model can only choose from the IDs retrieval handed it;
 anything else is dropped and counted (`hallucinated_ids_blocked` on
 `/api/health`). Wrong-but-real is possible; invented is not.
 
-### Retrieval recall is the ceiling
 
-The model cannot pick what retrieval never surfaced, so recall bounds accuracy.
-Measured over 200 Sigma rules — no LLM involved, so this is free to re-run:
-
-| pool size | exact in pool | parent in pool |
-|---|---|---|
-| 10 | 52.5% | 66.5% |
-| 20 | 61.5% | 75.5% |
-| **30** (default) | **67.5%** | **79.0%** |
-| 50 | 74.0% | 84.5% |
-
-Widening the pool from 10 to 30 cut the abstention rate from 75% to 15% and
-doubled parent-level accuracy. The remaining gap is a retrieval problem, not a
-reasoning problem — embeddings in place of BM25 is the obvious next step.
-
-### On the misses
-
-Several are defensible alternative mappings rather than errors — ATT&CK mapping
-is genuinely ambiguous and a Sigma tag is one author's opinion:
-
-| Rule | Sigma says | We said | |
-|---|---|---|---|
-| Guest → Member state change | T1078.004 Cloud Accounts | T1098 Account Manipulation | changing a user's state *is* account manipulation |
-| PowerShell installed as service | T1569.002 Service Execution | T1543.003 Windows Service | near-twins |
-| ScreenConnect web shell | T1190 Exploit Public-Facing App | T1505.003 Web Shell | the rule detects the web shell |
-| CrackMapExec | 6 techniques tagged | T1021.002 SMB Shares | correct, just not in their list |
-
-Scored strictly against the tag, these count as misses. That is the honest
-number and it is the one reported above.
