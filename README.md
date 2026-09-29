@@ -86,7 +86,7 @@ coverage, it is one detection written five times.
 
 Built:
 
-- [x] ATT&CK ingest + BM25 retrieval, no vector DB to stand up
+- [x] ATT&CK ingest 
 - [x] Parser for SPL / KQL / YARA-L  / plain English
 - [x] Retrieval-constrained mapping with confidence + abstention
 - [x] Blind spots + telemetry upgrades
