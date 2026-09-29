@@ -17,8 +17,6 @@ Coverage X-Ray is built to bridge this gap and save time and focus on deveopment
 Paste a SIEM detection rule → get its MITRE ATT&CK technique, what the rule
 **cannot** see, and the detections you are missing further down the attack chain.
 
-Not a MITRE lookup tool.
-
 ---
 
 ## How it works
